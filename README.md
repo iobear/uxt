@@ -16,3 +16,5 @@ uxt {Unix Epoch} RFC3339</br>
 
 uxt version</br>
 →0.0.x
+
+![alt uxt](docs/uxt.gif?raw=true "uxt demo")
