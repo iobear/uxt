@@ -20,7 +20,7 @@ func main() {
 			os.Exit(0)
 		}
 
-		if os.Args[1] == "version" {
+		if os.Args[1] == "version" || os.Args[1] == "-v" {
 			printVersion()
 			os.Exit(0)
 		}
@@ -45,7 +45,7 @@ func main() {
 
 				t := time.Unix(unixTime, 0)
 
-				if argumentsAmount == 2 && os.Args[2] == "RFC3339" {
+				if argumentsAmount == 2 && (os.Args[2] == "RFC3339" || os.Args[2] == "3339") {
 					strDate = t.Format(time.RFC3339)
 				} else {
 					strDate = t.Format(time.UnixDate)
@@ -58,7 +58,7 @@ func main() {
 			}
 		}
 	} else {
-		fmt.Println(time.Now().Unix())
+		fmt.Println(now)
 
 	}
 }
