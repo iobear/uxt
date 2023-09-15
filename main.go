@@ -1,66 +1,72 @@
+// main.go
 package main
 
 import (
 	"fmt"
 	"os"
 	"strconv"
-	"strings"
-	"time"
+
+	"github.com/iobear/uxt/uxt"
 )
 
 func main() {
-	now := time.Now().Unix()
-
-	argumentsAmount := len(os.Args[1:])
-
-	if argumentsAmount > 0 {
-		input := os.Args[1]
-		if os.Args[1] == "help" || os.Args[1] == "-h" {
-			printHelp()
-			os.Exit(0)
-		}
-
-		if os.Args[1] == "version" || os.Args[1] == "-v" {
-			printVersion()
-			os.Exit(0)
-		}
-
-		if strings.HasPrefix(input, "-") || strings.HasPrefix(input, "+") {
-			if strings.Count(input, "") < 3 {
-				printError()
-				os.Exit(1)
-			}
-			inputInt, err := strconv.Atoi(input)
-			if err != nil {
-				fmt.Println(err)
-				os.Exit(1)
-			}
-			finalTime := now + int64(inputInt)
-			fmt.Println(finalTime)
-
-		} else {
-			if inputInt, err := strconv.Atoi(input); err == nil {
-				var unixTime int64 = int64(inputInt)
-				var strDate string
-
-				t := time.Unix(unixTime, 0)
-
-				if argumentsAmount == 2 && (os.Args[2] == "RFC3339" || os.Args[2] == "3339") {
-					strDate = t.Format(time.RFC3339)
-				} else {
-					strDate = t.Format(time.UnixDate)
-				}
-
-				fmt.Println(strDate)
-			} else {
-				printError()
-				os.Exit(1)
-			}
-		}
-	} else {
-		fmt.Println(now)
-
+	args := os.Args[1:]
+	if len(args) == 0 {
+		fmt.Println(uxt.GetCurrentUnixTime())
+		return
 	}
+
+	switch args[0] {
+	case "help", "-h":
+		printHelp()
+	case "version", "-v":
+		printVersion()
+	default:
+		processUnixTimeArgs(args)
+	}
+}
+
+func processUnixTimeArgs(args []string) {
+	input := args[0]
+
+	if input[0] == '+' || input[0] == '-' {
+		adjustment, err := strconv.Atoi(input)
+		if err != nil || len(input) < 2 {
+			printError()
+			return
+		}
+
+		result, err := uxt.AdjustCurrentUnixTime(adjustment)
+		if err != nil {
+			printError()
+			return
+		}
+
+		fmt.Println(result)
+	} else {
+		unixTime, err := strconv.ParseInt(input, 10, 64)
+		if err != nil {
+			printError()
+			return
+		}
+
+		format := ""
+		if len(args) == 2 {
+			format = args[1]
+		}
+
+		result, err := uxt.ConvertUnixTimeToFormattedString(unixTime, format)
+		if err != nil {
+			printError()
+			return
+		}
+
+		fmt.Println(result)
+	}
+}
+
+func printError() {
+	fmt.Println("Invalid argument, try help argument")
 }
 
 func printHelp() {
@@ -80,11 +86,6 @@ func printHelp() {
 	fmt.Println(helpTxt)
 }
 
-func printError() {
-	fmt.Println("Ivalid argument, try help argument")
-}
-
 func printVersion() {
-	fmt.Println("0.0.1")
-
+	fmt.Println("v0.0.2")
 }
