@@ -32,3 +32,10 @@ func AdjustCurrentUnixTime(adjustment int) (string, error) {
 func GetCurrentUnixTime() string {
 	return fmt.Sprintf("%v", time.Now().Unix())
 }
+
+// GetTimeSince returns the time elapsed since the given Unix timestamp.
+func GetTimeSince(unixTime int64) string {
+	t := time.Unix(unixTime, 0)
+	duration := time.Since(t)
+	return duration.String()
+}

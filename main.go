@@ -29,7 +29,20 @@ func main() {
 func processUnixTimeArgs(args []string) {
 	input := args[0]
 
-	if input[0] == '+' || input[0] == '-' {
+	if input == "since" {
+		if len(args) < 2 {
+			printError()
+			return
+		}
+		unixTime, err := strconv.ParseInt(args[1], 10, 64)
+		if err != nil {
+			printError()
+			return
+		}
+
+		fmt.Println(uxt.GetTimeSince(unixTime))
+		return
+	} else if input[0] == '+' || input[0] == '-' {
 		adjustment, err := strconv.Atoi(input)
 		if err != nil || len(input) < 2 {
 			printError()
