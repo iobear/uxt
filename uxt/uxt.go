@@ -37,5 +37,14 @@ func GetCurrentUnixTime() string {
 func GetTimeSince(unixTime int64) string {
 	t := time.Unix(unixTime, 0)
 	duration := time.Since(t)
-	return duration.String()
+
+	days := int(duration.Hours()) / 24
+	hours := int(duration.Hours()) % 24
+	minutes := int(duration.Minutes()) % 60
+	seconds := int(duration.Seconds()) % 60
+
+	if days > 0 {
+		return fmt.Sprintf("%d days, %d hours, %d minutes, %d seconds", days, hours, minutes, seconds)
+	}
+	return fmt.Sprintf("%d hours, %d minutes, %d seconds", hours, minutes, seconds)
 }
