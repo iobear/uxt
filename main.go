@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"strings"
 
 	"github.com/iobear/uxt/uxt"
 )
@@ -56,6 +57,10 @@ func processUnixTimeArgs(args []string) {
 		}
 
 		fmt.Println(result)
+	} else if strings.HasPrefix(input, "serv:") {
+		port := strings.TrimPrefix(input, "serv:")
+		RunServer(port)
+		return
 	} else {
 		unixTime, err := strconv.ParseInt(input, 10, 64)
 		if err != nil {
@@ -100,5 +105,5 @@ func printHelp() {
 }
 
 func printVersion() {
-	fmt.Println("v0.0.2")
+	fmt.Println("v0.0.4")
 }
