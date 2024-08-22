@@ -110,5 +110,5 @@ func printHelp() {
 }
 
 func printVersion() {
-	fmt.Println("v0.0.4")
+	fmt.Println("v0.0.5")
 }
