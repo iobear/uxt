@@ -15,6 +15,8 @@ import (
 	"github.com/iobear/uxt/uxt"
 )
 
+var version = "v0.0.5"
+
 func main() {
 	args := os.Args[1:]
 	if len(args) == 0 {
@@ -23,9 +25,9 @@ func main() {
 	}
 
 	switch args[0] {
-	case "help", "-h":
+	case "help", "-h", "--help":
 		printHelp()
-	case "version", "-v":
+	case "version", "-v", "--version":
 		printVersion()
 	default:
 		processUnixTimeArgs(args)
@@ -103,12 +105,12 @@ func printHelp() {
 	helpTxt += os.Args[0] + " <Unix Epoch> RFC3339\n"
 	helpTxt += " 2025-05-08T08:13:30+02:00\n\n"
 	helpTxt += os.Args[0] + " version\n"
-	helpTxt += " 0.0.x\n\n"
+	helpTxt += " " + version + "\n\n"
 	helpTxt += "https://github.com/iobear/uxt \n"
 
 	fmt.Println(helpTxt)
 }
 
 func printVersion() {
-	fmt.Println("v0.0.5")
+	fmt.Println(version)
 }

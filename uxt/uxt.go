@@ -21,11 +21,9 @@ func ConvertUnixTimeToFormattedString(unixTime int64, format string) (string, er
 	if unixTime < 1e12 {
 		// Unix timestamp is in seconds
 		t = time.Unix(unixTime, 0)
-		fmt.Println("Unix timestamp is in seconds")
 	} else {
 		// Unix timestamp is in milliseconds
 		t = time.UnixMilli(unixTime)
-		fmt.Println("Unix timestamp is in milliseconds")
 	}
 
 	if strings.ToLower(format) == "rfc3339" || format == "3339" {
