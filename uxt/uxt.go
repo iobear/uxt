@@ -15,8 +15,18 @@ import (
 
 // ConvertUnixTimeToFormattedString converts a Unix timestamp to a formatted string.
 func ConvertUnixTimeToFormattedString(unixTime int64, format string) (string, error) {
-	t := time.Unix(unixTime, 0)
+	var t time.Time
 	var strDate string
+
+	if unixTime < 1e12 {
+		// Unix timestamp is in seconds
+		t = time.Unix(unixTime, 0)
+		fmt.Println("Unix timestamp is in seconds")
+	} else {
+		// Unix timestamp is in milliseconds
+		t = time.UnixMilli(unixTime)
+		fmt.Println("Unix timestamp is in milliseconds")
+	}
 
 	if strings.ToLower(format) == "rfc3339" || format == "3339" {
 		strDate = t.Format(time.RFC3339)
