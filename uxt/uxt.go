@@ -18,12 +18,19 @@ func ConvertUnixTimeToFormattedString(unixTime int64, format string) (string, er
 	var t time.Time
 	var strDate string
 
-	if unixTime < 1e12 {
-		// Unix timestamp is in seconds
+	// Determine the unit of the Unix timestamp
+	if unixTime <= 1e10 {
+		fmt.Println("Seconds")
 		t = time.Unix(unixTime, 0)
-	} else {
-		// Unix timestamp is in milliseconds
+	} else if unixTime < 1e13 {
+		fmt.Println("Milliseconds")
 		t = time.UnixMilli(unixTime)
+	} else if unixTime < 1e16 {
+		fmt.Println("Microseconds")
+		t = time.UnixMicro(unixTime)
+	} else {
+		fmt.Println("Nanoseconds")
+		t = time.Unix(0, unixTime)
 	}
 
 	if strings.ToLower(format) == "rfc3339" || format == "3339" {

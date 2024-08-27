@@ -15,7 +15,7 @@ import (
 	"github.com/iobear/uxt/uxt"
 )
 
-var version = "v0.0.5"
+var version = "v0.0.6"
 
 func main() {
 	args := os.Args[1:]
